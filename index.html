@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jvras - social media</title>
+    <link rel="icon" href="https://ui-avatars.com/api/?name=Jvras&background=1e293b&color=fff&size=64" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Preloader animacji wejścia -->
+    <div class="loader-overlay" id="loader">
+        <div class="loader-content">
+            <div class="brand-pulse">jvras</div>
+            <div class="progress-bar-container"><div class="progress-bar"></div></div>
+        </div>
+    </div>
+
+    <div class="background-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round">
+                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"></i>
+            </div>
+        </label>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <!-- Lewa kolumna: Discord -->
+        <aside class="left-panel">
+            <div class="widget discord-widget">
+                <div class="widget-header">
+                    <div class="discord-logo"><i class="fab fa-discord"></i> DISCORD</div>
+                    <div class="online-count" id="discord-online-count">0 ONLINE</div>
+                </div>
+                <div class="widget-body">
+                    <h3>Mój Serwer Discord</h3>
+                    <p class="subtitle-sm">UŻYTKOWNICY ONLINE</p>
+                    <div class="discord-users" id="discord-users-list">
+                        <div class="user-item loader-item"><i class="fas fa-circle-notch fa-spin"></i> Ładowanie...</div>
+                    </div>
+                </div>
+                <div class="widget-footer">
+                    <span>NASZ KANAŁ DISCORD</span>
+                    <a href="https://discord.gg/ctJdnJDGNa" target="_blank" class="btn-join">DOŁĄCZ</a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Środkowa kolumna: Main -->
+        <main class="center-panel">
+            <div class="profile-section">
+                <div class="profile-img">
+                    <img src="https://ui-avatars.com/api/?name=Jvras&background=1e293b&color=fff&size=150" alt="Jvras" id="main-avatar">
+                    <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
+                </div>
+                <h1 class="profile-name">jvras</h1>
+                <p class="profile-title">STREAMER & YOUTUBER</p>
+                <a href="mailto:jvrasek.biznes@gmail.com" class="profile-contact"><i class="fas fa-envelope"></i> jvrasek.biznes@gmail.com</a>
+            </div>
+
+            <div class="socials-columns-grid">
+                <!-- YouTube Column -->
+                <div class="social-col">
+                    <h3 class="col-title">youtube</h3>
+                    <div class="col-links">
+                        <a href="https://www.youtube.com/@jvras" class="mini-card yt" id="avatar-stat-jvras-container">
+                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras">
+                            <div class="info">
+                                <h2>jvras</h2>
+                                <span class="stats" id="stat-jvras">...</span>
+                            </div>
+                        </a>
+                        <a href="https://www.youtube.com/@jvrasplus" class="mini-card yt">
+                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras-plus">
+                            <div class="info">
+                                <h2>jvrasPLUS</h2>
+                                <span class="stats" id="stat-jvras-plus">...</span>
+                            </div>
+                        </a>
+                        <a href="https://www.youtube.com/@jvrascs2" class="mini-card yt">
+                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras-cs2">
+                            <div class="info">
+                                <h2>jvrasCS2</h2>
+                                <span class="stats" id="stat-jvras-cs2">...</span>
+                            </div>
+                        </a>
+                        <a href="https://www.youtube.com/@jvras-fx" class="mini-card yt">
+                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras-fx">
+                            <div class="info">
+                                <h2>jvras-fx</h2>
+                                <span class="stats" id="stat-jvras-fx">...</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- TikTok Column -->
+                <div class="social-col">
+                    <h3 class="col-title">tiktok</h3>
+                    <div class="col-links">
+                        <a href="https://www.tiktok.com/@jvras.cs2" class="mini-card tt">
+                            <div class="icon-circle" style="background:#000;"><i class="fa-brands fa-tiktok"></i></div>
+                            <div class="info">
+                                <h2>jvras.cs2</h2>
+                                <span class="stats" id="stat-tt-cs2">Obserwuj profil</span>
+                            </div>
+                        </a>
+                        <a href="https://www.tiktok.com/@jvras.fx" class="mini-card tt">
+                            <div class="icon-circle" style="background:#000;"><i class="fa-brands fa-tiktok"></i></div>
+                            <div class="info">
+                                <h2>jvras.fx</h2>
+                                <span class="stats" id="stat-tt-fx">Obserwuj profil</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Streaming Column -->
+                <div class="social-col">
+                    <h3 class="col-title">streaming</h3>
+                    <div class="col-links">
+                        <a href="https://twitch.tv/jvras_" class="mini-card twitch">
+                            <div class="icon-circle" style="background:#9146ff;"><i class="fa-brands fa-twitch"></i></div>
+                            <div class="info">
+                                <h2>jvras_</h2>
+                                <span class="stats" id="stat-twitch">Obserwuj kanał</span>
+                            </div>
+                        </a>
+                        <a href="https://kick.com/jvras" class="mini-card kick">
+                            <div class="icon-circle" style="background:#53fc18; color:#000;"><i class="fas fa-bolt"></i></div>
+                            <div class="info">
+                                <h2>jvras</h2>
+                                <span class="stats" id="stat-kick">Obserwuj kanał</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Instagram Column -->
+                <div class="social-col">
+                    <h3 class="col-title">instagram</h3>
+                    <div class="col-links">
+                        <a href="https://www.instagram.com/jvrass/" class="mini-card ig">
+                            <div class="icon-circle" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fa-brands fa-instagram"></i></div>
+                            <div class="info">
+                                <h2>jvrass</h2>
+                                <span class="stats" id="stat-ig-jvrass">Obserwuj profil</span>
+                            </div>
+                        </a>
+                        <a href="https://www.instagram.com/jvras.fx/" class="mini-card ig">
+                            <div class="icon-circle" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fa-brands fa-instagram"></i></div>
+                            <div class="info">
+                                <h2>jvras.fx</h2>
+                                <span class="stats" id="stat-ig-fx">Obserwuj profil</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Gaming Column -->
+                <div class="social-col">
+                    <h3 class="col-title">gaming</h3>
+                    <div class="col-links">
+                        <a href="https://steamcommunity.com/id/jvras/" class="mini-card steam">
+                            <div class="icon-circle" style="background:#171a21;"><i class="fa-brands fa-steam"></i></div>
+                            <div class="info">
+                                <h2>jvras</h2>
+                                <span class="stats" id="stat-steam">Profil Steam</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Support Column -->
+                <div class="social-col">
+                    <h3 class="col-title">wsparcie</h3>
+                    <div class="col-links">
+                        <a href="https://tipply.pl/@jvras" class="mini-card tipply">
+                            <div class="icon-circle" style="background:#ffc107; color:#000;"><i class="fas fa-heart"></i></div>
+                            <div class="info">
+                                <h2>jvras</h2>
+                                <span class="stats">Wsparcie</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Prawa kolumna: YouTube Najnowsze Filmy -->
+        <aside class="right-panel">
+            <div class="widget youtube-widget">
+                <div class="widget-header">
+                    <div class="discord-logo"><i class="fab fa-youtube"></i> OSTATNIE FILMY</div>
+                </div>
+                <div class="widget-body">
+                    <h3>Najnowsze na Kanale</h3>
+                    <p class="subtitle-sm" style="color:red; font-weight:900;">FILMY (BEZ SHORTS)</p>
+                    <div id="youtube-videos-list" style="display:flex; flex-direction:column; gap:10px;">
+                        <div style="color:white; text-align:center; padding: 20px;"><i class="fas fa-circle-notch fa-spin"></i> Pobieranie...</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
