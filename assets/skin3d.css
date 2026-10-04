@@ -1,0 +1,46 @@
+/* Postać 3D (skin3d.js) - style z JVRAS Launchera */
+.skin-3d { position: relative; width: 240px; height: 290px; cursor: grab; opacity: 0; transition: opacity 0.6s ease; z-index: 1; }
+.skin-3d.sk-ready { opacity: 1; animation: skinPop 0.8s var(--ease-spring) both; }
+.skin-3d.sk-dragging { cursor: grabbing; }
+.sk-stage { position: absolute; inset: 0; perspective: 900px; perspective-origin: 50% 40%; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.6)); }
+.sk-root { position: relative; transform-style: preserve-3d; will-change: transform; }
+.sk-part { position: absolute; transform-style: preserve-3d; will-change: transform; }
+.sk-box { position: absolute; left: 0; top: 0; transform-style: preserve-3d; }
+.sk-face { position: absolute; background-repeat: no-repeat; image-rendering: pixelated; backface-visibility: hidden; }
+.sk-mirror .sk-face { transform-origin: center; }
+/* Logo w panelu bocznym: błyskawica z poświatą */
+
+/* Postać: płynniejsza poświata i cień pod stopami */
+.skin-3d { transition: opacity 0.8s var(--ease-smooth); }
+.sk-root, .sk-part { backface-visibility: visible; }
+.skin-3d.sk-ready {
+  animation-fill-mode: backwards !important;
+}
+/* Kosmetyki (skrzydla, nakrycia glowy, czasteczki) */
+.sk-wing { pointer-events: none; }
+.sk-wing-skin { position: absolute; inset: 0; backface-visibility: visible; }
+.sk-halo {
+  position: absolute; border-radius: 50%; border-style: dashed; border-color: var(--c); box-sizing: border-box;
+  box-shadow: 0 0 10px var(--c), inset 0 0 8px var(--c); backface-visibility: visible; pointer-events: none;
+}
+.sk-crown { position: absolute; transform-style: preserve-3d; pointer-events: none; }
+.sk-crown-face {
+  position: absolute; inset: 0; backface-visibility: visible;
+  background: linear-gradient(180deg, #FFF1A8 0%, var(--c) 55%, #B45309 100%);
+  clip-path: polygon(0 100%, 0 22%, 16% 56%, 33% 0, 50% 56%, 67% 0, 84% 56%, 100% 22%, 100% 100%);
+}
+.sk-fx { position: absolute; inset: 0; pointer-events: none; overflow: visible; z-index: 2; }
+.sk-p { position: absolute; display: block; pointer-events: none; will-change: transform, opacity; }
+.sk-p-sparks { width: 4px; height: 4px; background: var(--c); box-shadow: 0 0 6px var(--c), 0 0 12px var(--c); }
+.sk-p-aura { width: 18px; height: 18px; margin: -9px; border-radius: 50%; background: radial-gradient(circle, var(--c) 0%, transparent 70%); mix-blend-mode: screen; }
+.sk-p-stars { width: 11px; height: 11px; margin: -5px; background: var(--c); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+/* --- pikselowe skrzydla i nakrycia glowy --- */
+.sk-px { image-rendering: pixelated; }
+.sk-halo.sk-halo-tex { border: none; background: center / 100% 100% no-repeat; box-shadow: none; }
+.sk-crown-face.sk-crown-tex { clip-path: none; background: center / 100% 100% no-repeat; }
+.sk-horn { position: absolute; top: 0; background: center / 100% 100% no-repeat; backface-visibility: visible; }
+.sk-hat-side { position: absolute; inset: 0; background-size: 100% 200%; background-position: 0 100%; backface-visibility: visible; }
+.sk-hat-top { position: absolute; left: 0; top: 0; background: #1a1a1e; backface-visibility: visible; }
+.sk-hat-brim { position: absolute; background: #141418; border-radius: 2px; backface-visibility: visible; }
+.sk-p-aura { mix-blend-mode: normal !important; }
+@keyframes skinPop { from { transform: translateY(20px) scale(0.9); } to { transform: none; } }

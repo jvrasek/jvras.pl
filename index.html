@@ -1,219 +1,335 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jvras - social media</title>
-    <link rel="icon" href="https://ui-avatars.com/api/?name=Jvras&background=1e293b&color=fff&size=64" type="image/png">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JVRAS Launcher – launcher Minecraft z własnym klientem</title>
+  <meta name="description" content="JVRAS Launcher: szybki launcher Minecraft dla Windows. Profile Vanilla i Fabric od 1.21.8 do 26.3, mody z Modrinth, JVRAS Client z 26 modułami, kosmetyki i automatyczne aktualizacje. Za darmo.">
+  <meta name="theme-color" content="#09090a">
+  <link rel="canonical" href="https://jvras.pl/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jvras.pl/">
+  <meta property="og:site_name" content="JVRAS">
+  <meta property="og:locale" content="pl_PL">
+  <meta property="og:title" content="JVRAS Launcher – launcher Minecraft z własnym klientem">
+  <meta property="og:description" content="Darmowy launcher Minecraft od jvrasa: JVRAS Client z 26 modułami, kosmetyki, mody z Modrinth i automatyczne aktualizacje.">
+  <meta property="og:image" content="https://jvras.pl/img/launcher-home.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "JVRAS Launcher",
+        "url": "https://jvras.pl/",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Windows 10, Windows 11",
+        "inLanguage": "pl",
+        "image": "https://jvras.pl/img/launcher-home.jpg",
+        "description": "Darmowy launcher Minecraft z własnym klientem JVRAS Client, kosmetykami, modami z Modrinth i automatycznymi aktualizacjami.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "PLN" },
+        "author": { "@type": "Person", "name": "jvras", "url": "https://www.youtube.com/@jvras" },
+        "downloadUrl": "https://github.com/jvrasek/jvras-launcher/releases/latest/download/JVRAS-Launcher.exe"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Czy JVRAS Launcher jest darmowy?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Launcher, JVRAS Client i podstawowe kosmetyki są za darmo. Kosmetyki z szafy kupujesz żetonami, które zbierasz za codzienne logowanie." } },
+          { "@type": "Question", "name": "Czy potrzebuję kupionego Minecrafta?", "acceptedAnswer": { "@type": "Answer", "text": "Do gry z kontem Microsoft tak. Konto offline działa do gry jednoosobowej i na serwerach, które je dopuszczają, ale bez żetonów i kosmetyk JVRAS." } },
+          { "@type": "Question", "name": "Jakie wersje Minecrafta są obsługiwane?", "acceptedAnswer": { "@type": "Answer", "text": "Wszystkie wersje Vanilla oraz Fabric. JVRAS Client działa na Fabric od 1.21.8 do 26.3." } },
+          { "@type": "Question", "name": "Jakie są wymagania?", "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 lub 11 (64-bit) i połączenie z internetem przy pierwszym uruchomieniu wersji. Javę launcher pobiera sam." } }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/skin3d.css">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
-    <!-- Preloader animacji wejścia -->
-    <div class="loader-overlay" id="loader">
-        <div class="loader-content">
-            <div class="brand-pulse">jvras</div>
-            <div class="progress-bar-container"><div class="progress-bar"></div></div>
+<body class="intro">
+  <!-- Intro: piorun i rozszyfrowujący się napis, potem ekran rozsypuje się na piksele -->
+  <div class="intro-screen" id="intro" aria-hidden="true">
+    <svg class="strike" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M54 -2 L44 30 L56 33 L41 62 L53 64 L47 100"/></svg>
+    <div class="intro-c">
+      <div class="intro-logo"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="intro-word"><span>J</span><span>V</span><span>R</span><span>A</span><span>S</span></div>
+      <div class="intro-sub">LAUNCHER</div>
+    </div>
+    <canvas class="intro-px" id="intro-px"></canvas>
+  </div>
+
+  <div class="progress" id="progress"></div>
+  <!-- jaskinia: ściany z bloków przy krawędziach, im niżej tym głębiej (rudy, ametysty, magma, skała macierzysta) -->
+  <canvas class="cave" id="cave" aria-hidden="true"></canvas>
+  <div class="ylvl" id="ylvl" aria-hidden="true"><b>Y 64</b><span>Powierzchnia</span></div>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="#top" aria-label="JVRAS - strona główna">
+      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span>JVRAS</span>
+    </a>
+    <nav class="links">
+      <a href="#funkcje">Funkcje</a>
+      <a href="#launcher">Launcher</a>
+      <a href="#szafa">Szafa</a>
+      <a href="#client">JVRAS Client</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-r">
+      <a class="ghost" href="https://dc.jvras.pl/" target="_blank" rel="noopener">Discord</a>
+      <a class="btn sm" href="#pobierz" data-download>Pobierz</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO: nocne niebo z pikselowymi chmurami, latające bloki i postać 3D -->
+    <section class="hero" id="hero">
+      <canvas class="world" id="world" aria-hidden="true"></canvas>
+      <div class="word" aria-hidden="true">JVRAS</div>
+      <div class="cubes" id="hero-cubes" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-c">
+          <div class="eyebrow in-1"><span class="led"></span>Minecraft 1.21.8 – 26.3 · Windows</div>
+          <h1 class="split in-2" aria-label="Graj szybciej. Wyglądaj lepiej."><span class="ln">Graj szybciej.</span><span class="ln acc">Wyglądaj lepiej.</span></h1>
+          <p class="lead in-3">Launcher Minecraft z własnym klientem, kosmetykami i modami w jednym kliknięciu. Za darmo.</p>
+          <div class="cta in-4">
+            <a class="btn lg shine" href="#pobierz" data-download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              <span>Pobierz za darmo<small data-version>dla Windows</small></span>
+            </a>
+            <a class="btn glass lg" href="https://dc.jvras.pl/" target="_blank" rel="noopener">Dołącz na Discordzie</a>
+          </div>
+          <div class="stats in-5" id="stats" hidden>
+            <span class="live"><i></i><b data-online>0</b> online teraz</span>
+            <span class="sep"></span>
+            <span>Zaufało nam <b data-total>0</b> <span data-total-word>graczy</span></span>
+          </div>
         </div>
+        <div class="hero-char in-3">
+          <div class="pedestal" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="skin-3d" id="hero-skin" title="Przeciągnij, żeby obrócić. Kliknij, żeby pomachać."></div>
+          <div class="char-tag"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>jvras</div>
+          <div class="char-hint">Przeciągnij · kliknij</div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#ticker" aria-label="Przewiń w dół"><span></span></a>
+    </section>
+
+    <!-- przesuwające się moduły JVRAS Client -->
+    <section class="ticker" id="ticker" aria-label="Moduły JVRAS Client">
+      <div class="row"><div class="track" data-dir="1">
+        <span>Celownik z podglądem</span><span>Zoom</span><span>Freelook</span><span>Nasycenie kolorów</span><span>Block overlay</span><span>Własne F3</span><span>Podgląd shulkera</span><span>Viewmodel</span>
+      </div></div>
+      <div class="row"><div class="track" data-dir="-1">
+        <span>Płynny czat</span><span>Keystrokes</span><span>CPS · FPS · Ping</span><span>Bindy komend</span><span>Toggle Sprint</span><span>Fullbright</span><span>Armor status</span><span>Efekty</span>
+      </div></div>
+    </section>
+
+    <!-- FUNKCJE -->
+    <section class="sec" id="funkcje">
+      <div class="cubes side" data-cubes="funkcje" aria-hidden="true"></div>
+      <div class="sec-h">
+        <small class="rv">Wszystko w jednym miejscu</small>
+        <h2 class="split rv"><span class="ln">Zrobiony pod <em>graczy</em>,</span><span class="ln">nie pod klikanie.</span></h2>
+      </div>
+      <div class="grid">
+        <article class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg></div>
+          <h3>Profile i wersje</h3>
+          <p>Vanilla albo Fabric, od 1.21.8 do 26.3. Każdy profil ma własne mody, pamięć RAM i ustawienia.</p>
+        </article>
+        <article class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <h3>Mody jednym kliknięciem</h3>
+          <p>Wyszukiwarka Modrinth wbudowana w launcher: mody, shadery i paczki zasobów dobrane do wersji profilu.</p>
+        </article>
+        <article class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <h3>JVRAS Client</h3>
+          <p>Własny mod z 26 modułami: celownik, zoom, freelook, nasycenie kolorów, własne F3, bindy komend i więcej.</p>
+        </article>
+        <article class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 6.6 16 3 12 5 8 3 3.6 6.6 6 10.5v10.5h12V10.5z"/></svg></div>
+          <h3>Szafa i kosmetyki</h3>
+          <p>Peleryny, skrzydła, aureole i cząsteczki widoczne w grze. Żetony zbierasz za codzienne logowanie.</p>
+        </article>
+        <article class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></div>
+          <h3>Zawsze aktualny</h3>
+          <p>Launcher sam sprawdza nowe wersje i aktualizuje się jednym kliknięciem. Nic nie musisz pobierać ręcznie.</p>
+        </article>
+        <article class="card rv">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <h3>Bezpieczne logowanie</h3>
+          <p>Logowanie przez oficjalne konto Microsoft. Hasła nie przechodzą przez nasze serwery.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- LAUNCHER: przewijana opowieść (zrzut zmienia się razem z tekstem) -->
+    <section class="story" id="launcher">
+      <div class="story-sticky">
+        <div class="story-t">
+          <small class="kick">Zobacz, jak wygląda</small>
+          <div class="steps">
+            <div class="step on" data-shot="launcher-home"><h2>Twoja <em>scena</em>.</h2><p>Postać ze skinem, nagroda dnia, ostatnio grane wersje i wielki przycisk Graj. Enter i już jesteś w grze.</p></div>
+            <div class="step" data-shot="launcher-profile"><h2>Każda wersja <em>osobno</em>.</h2><p>Profile Vanilla i Fabric z własnymi modami i pamięcią. Przełączasz się jednym kliknięciem.</p></div>
+            <div class="step" data-shot="launcher-mody"><h2>Mody <em>bez szukania</em>.</h2><p>Modrinth w środku launchera. Instalujesz, odinstalowujesz i przeinstalowujesz bez folderów.</p></div>
+            <div class="step" data-shot="launcher-szafa"><h2>Wyglądaj <em>po swojemu</em>.</h2><p>Szafa z peleryn, skrzydeł i cząsteczek, z podglądem postaci na żywo.</p></div>
+            <div class="step" data-shot="launcher-jasny"><h2>Jasno albo <em>ciemno</em>.</h2><p>Tryb jasny lub ciemny i dziesięć kolorów akcentu. Launcher wygląda tak, jak lubisz.</p></div>
+          </div>
+          <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="story-v">
+          <div class="shot">
+            <div class="glow" aria-hidden="true"></div>
+            <div class="stack">
+              <img class="on" data-shot="launcher-home" src="img/launcher-home.jpg" alt="Ekran główny JVRAS Launchera" width="1280" height="800">
+              <img data-shot="launcher-profile" src="img/launcher-profile.jpg" alt="Profile i wersje Minecraft w JVRAS Launcherze" width="1280" height="800" loading="lazy">
+              <img data-shot="launcher-mody" src="img/launcher-mody.jpg" alt="Mody z Modrinth w JVRAS Launcherze" width="1280" height="800" loading="lazy">
+              <img data-shot="launcher-szafa" src="img/launcher-szafa.jpg" alt="Szafa z kosmetykami w JVRAS Launcherze" width="1280" height="800" loading="lazy">
+              <img data-shot="launcher-jasny" src="img/launcher-jasny.jpg" alt="JVRAS Launcher w trybie jasnym" width="1280" height="800" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="story-track" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <!-- SZAFA: przymierzalnia kosmetyków na żywej postaci -->
+    <section class="sec wardrobe" id="szafa">
+      <div class="cubes side" data-cubes="szafa" aria-hidden="true"></div>
+      <div class="sec-h">
+        <small class="rv">Przymierzalnia</small>
+        <h2 class="split rv"><span class="ln">Przymierz, zanim</span><span class="ln"><em>zagrasz</em>.</span></h2>
+        <p class="rv">To ta sama postać 3D, co w launcherze. Klikaj i zobacz, jak będziesz wyglądać w grze.</p>
+      </div>
+      <div class="wr rv">
+        <div class="wr-stage">
+          <div class="pedestal" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="skin-3d" id="wr-skin"></div>
+          <div class="wr-name" id="wr-name">Błyskawica JVRAS</div>
+        </div>
+        <div class="wr-opts" id="wr-opts">
+          <div class="wr-g"><h4>Peleryna</h4><div class="wr-sw" data-slot="cape">
+            <button data-v="cape_lightning" class="on" style="--p:url(cosmetics/cape_lightning.png)" title="Błyskawica JVRAS"></button>
+            <button data-v="cape_neon" style="--p:url(cosmetics/cape_neon.png)" title="Neon"></button>
+            <button data-v="cape_frost" style="--p:url(cosmetics/cape_frost.png)" title="Szron"></button>
+            <button data-v="cape_galaxy" style="--p:url(cosmetics/cape_galaxy.png)" title="Galaktyka"></button>
+            <button data-v="cape_ember" style="--p:url(cosmetics/cape_ember.png)" title="Żar"></button>
+            <button data-v="cape_obsidian" style="--p:url(cosmetics/cape_obsidian.png)" title="Obsydian"></button>
+            <button data-v="" class="none" title="Bez peleryny">×</button>
+          </div></div>
+          <div class="wr-g"><h4>Skrzydła</h4><div class="wr-ch" data-slot="wings">
+            <button data-v="" class="on">Brak</button><button data-v="energy">Energii</button><button data-v="angel">Anielskie</button><button data-v="dragon">Smocze</button>
+          </div></div>
+          <div class="wr-g"><h4>Na głowie</h4><div class="wr-ch" data-slot="head">
+            <button data-v="" class="on">Brak</button><button data-v="halo">Aureola</button><button data-v="crown">Korona</button>
+          </div></div>
+          <div class="wr-g"><h4>Cząsteczki</h4><div class="wr-ch" data-slot="particles">
+            <button data-v="sparks" class="on">Iskry</button><button data-v="aura">Aura</button><button data-v="stars">Gwiazdy</button><button data-v="">Brak</button>
+          </div></div>
+          <p class="wr-note">Kosmetyki odblokowujesz w launcherze za żetony z codziennej nagrody.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- JVRAS CLIENT -->
+    <section class="sec split-sec" id="client">
+      <div class="cubes side" data-cubes="client" aria-hidden="true"></div>
+      <div class="split-t">
+        <small class="kick rv">JVRAS Client</small>
+        <h2 class="split rv"><span class="ln">Mod, który <em>zna</em></span><span class="ln">Twój launcher.</span></h2>
+        <p class="rv">Instaluje się sam przy każdym profilu Fabric. Własny ekran główny w grze, panel modułów pod prawym Shiftem i edytor HUD z przeciąganiem.</p>
+        <ul class="chips rv">
+          <li>Celownik z podglądem</li><li>Zoom</li><li>Freelook</li><li>Nasycenie kolorów</li><li>Block overlay</li>
+          <li>Własne F3</li><li>Podgląd shulkera</li><li>Viewmodel</li><li>Płynny czat</li><li>Bindy komend</li>
+        </ul>
+      </div>
+      <div class="shot tilt rv">
+        <div class="glow" aria-hidden="true"></div>
+        <img src="img/client-title.jpg" alt="Ekran główny JVRAS Client w Minecraft" width="1280" height="720" loading="lazy">
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec" id="faq">
+      <div class="cubes side" data-cubes="faq" aria-hidden="true"></div>
+      <div class="sec-h">
+        <small class="rv">Pytania</small>
+        <h2 class="split rv"><span class="ln">Najczęściej <em>pytacie</em>.</span></h2>
+      </div>
+      <div class="faq">
+        <details class="rv">
+          <summary>Czy JVRAS Launcher jest darmowy?</summary>
+          <div class="a"><p>Tak. Launcher, JVRAS Client i podstawowe kosmetyki są za darmo. Kosmetyki z szafy kupujesz żetonami, które zbierasz za codzienne logowanie.</p></div>
+        </details>
+        <details class="rv">
+          <summary>Windows pokazuje „System Windows ochronił ten komputer”. Co zrobić?</summary>
+          <div class="a"><p>To standardowy komunikat dla nowych programów bez płatnego certyfikatu wydawcy. Kliknij <b>Więcej informacji</b>, a potem <b>Uruchom mimo to</b>. Pobieraj launcher wyłącznie z tej strony albo z naszego Discorda.</p></div>
+        </details>
+        <details class="rv">
+          <summary>Czy potrzebuję kupionego Minecrafta?</summary>
+          <div class="a"><p>Do gry z kontem Microsoft tak. Konto offline działa do gry jednoosobowej i na serwerach, które je dopuszczają, ale bez żetonów i kosmetyk JVRAS.</p></div>
+        </details>
+        <details class="rv">
+          <summary>Jakie wersje Minecrafta są obsługiwane?</summary>
+          <div class="a"><p>Wszystkie wersje Vanilla oraz Fabric. JVRAS Client działa na Fabric od 1.21.8 do 26.3.</p></div>
+        </details>
+        <details class="rv">
+          <summary>Jakie są wymagania?</summary>
+          <div class="a"><p>Windows 10 lub 11 (64-bit) i połączenie z internetem przy pierwszym uruchomieniu wersji. Javę launcher pobiera sam.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- POBIERZ -->
+    <section class="sec final" id="pobierz">
+      <div class="final-c rv">
+        <div class="cubes" id="final-cubes" aria-hidden="true"></div>
+        <div class="vox-wrap" id="vox-wrap" title="Kliknij!"><div class="vox-glow"></div><div class="vox" id="vox"></div></div>
+        <h2 class="split"><span class="ln">Gotowy, żeby <em>zagrać</em>?</span></h2>
+        <p>Pobierz launcher, zaloguj się kontem Microsoft i graj. Aktualizacje przyjdą same.</p>
+        <a class="btn lg shine" href="#" data-download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span>Pobierz JVRAS Launcher<small data-version>dla Windows</small></span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-r">
+      <a class="brand" href="#top"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>JVRAS</span></a>
+      <nav>
+        <a href="https://dc.jvras.pl/" target="_blank" rel="noopener">Discord</a>
+        <a href="https://github.com/jvrasek/jvras-launcher/releases" target="_blank" rel="noopener">Wszystkie wersje</a>
+        <a href="mailto:jvrasek.biznes@gmail.com">Współpraca</a>
+        <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+      </nav>
     </div>
-
-    <div class="background-animation">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+    <div class="socials">
+      <span>Twórca: <b>jvras</b></span>
+      <a href="https://www.youtube.com/@jvras" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.youtube.com/@jvrasplus" target="_blank" rel="noopener">jvrasPLUS</a>
+      <a href="https://www.youtube.com/@jvrascs2" target="_blank" rel="noopener">jvrasCS2</a>
+      <a href="https://www.tiktok.com/@jvras.cs2" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://twitch.tv/jvras_" target="_blank" rel="noopener">Twitch</a>
+      <a href="https://kick.com/jvras" target="_blank" rel="noopener">Kick</a>
+      <a href="https://www.instagram.com/jvrass/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tipply.pl/@jvras" target="_blank" rel="noopener">Wsparcie</a>
     </div>
+    <p class="legal">© <span id="year">2026</span> JVRAS. Nie jest oficjalnym produktem Minecraft. Nie jest zatwierdzony przez Mojang ani Microsoft ani z nimi powiązany.</p>
+  </footer>
 
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round">
-                <i class="fas fa-sun"></i>
-                <i class="fas fa-moon"></i>
-            </div>
-        </label>
-    </div>
-
-    <div class="dashboard-wrapper">
-        <!-- Lewa kolumna: Discord -->
-        <aside class="left-panel">
-            <div class="widget discord-widget">
-                <div class="widget-header">
-                    <div class="discord-logo"><i class="fab fa-discord"></i> DISCORD</div>
-                    <div class="online-count" id="discord-online-count">0 ONLINE</div>
-                </div>
-                <div class="widget-body">
-                    <h3>Mój Serwer Discord</h3>
-                    <p class="subtitle-sm">UŻYTKOWNICY ONLINE</p>
-                    <div class="discord-users" id="discord-users-list">
-                        <div class="user-item loader-item"><i class="fas fa-circle-notch fa-spin"></i> Ładowanie...</div>
-                    </div>
-                </div>
-                <div class="widget-footer">
-                    <span>NASZ KANAŁ DISCORD</span>
-                    <a href="https://discord.gg/ctJdnJDGNa" target="_blank" class="btn-join">DOŁĄCZ</a>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Środkowa kolumna: Main -->
-        <main class="center-panel">
-            <div class="profile-section">
-                <div class="profile-img">
-                    <img src="https://ui-avatars.com/api/?name=Jvras&background=1e293b&color=fff&size=150" alt="Jvras" id="main-avatar">
-                    <div class="verified-badge"><i class="fas fa-check-circle"></i></div>
-                </div>
-                <h1 class="profile-name">jvras</h1>
-                <p class="profile-title">STREAMER & YOUTUBER</p>
-                <a href="mailto:jvrasek.biznes@gmail.com" class="profile-contact"><i class="fas fa-envelope"></i> jvrasek.biznes@gmail.com</a>
-            </div>
-
-            <div class="socials-columns-grid">
-                <!-- YouTube Column -->
-                <div class="social-col">
-                    <h3 class="col-title">youtube</h3>
-                    <div class="col-links">
-                        <a href="https://www.youtube.com/@jvras" class="mini-card yt" id="avatar-stat-jvras-container">
-                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras">
-                            <div class="info">
-                                <h2>jvras</h2>
-                                <span class="stats" id="stat-jvras">...</span>
-                            </div>
-                        </a>
-                        <a href="https://www.youtube.com/@jvrasplus" class="mini-card yt">
-                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras-plus">
-                            <div class="info">
-                                <h2>jvrasPLUS</h2>
-                                <span class="stats" id="stat-jvras-plus">...</span>
-                            </div>
-                        </a>
-                        <a href="https://www.youtube.com/@jvrascs2" class="mini-card yt">
-                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras-cs2">
-                            <div class="info">
-                                <h2>jvrasCS2</h2>
-                                <span class="stats" id="stat-jvras-cs2">...</span>
-                            </div>
-                        </a>
-                        <a href="https://www.youtube.com/@jvras-fx" class="mini-card yt">
-                            <img src="https://ui-avatars.com/api/?name=YT&background=ff0000&color=fff" id="avatar-jvras-fx">
-                            <div class="info">
-                                <h2>jvras-fx</h2>
-                                <span class="stats" id="stat-jvras-fx">...</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- TikTok Column -->
-                <div class="social-col">
-                    <h3 class="col-title">tiktok</h3>
-                    <div class="col-links">
-                        <a href="https://www.tiktok.com/@jvras.cs2" class="mini-card tt">
-                            <div class="icon-circle" style="background:#000;"><i class="fa-brands fa-tiktok"></i></div>
-                            <div class="info">
-                                <h2>jvras.cs2</h2>
-                                <span class="stats" id="stat-tt-cs2">Obserwuj profil</span>
-                            </div>
-                        </a>
-                        <a href="https://www.tiktok.com/@jvras.fx" class="mini-card tt">
-                            <div class="icon-circle" style="background:#000;"><i class="fa-brands fa-tiktok"></i></div>
-                            <div class="info">
-                                <h2>jvras.fx</h2>
-                                <span class="stats" id="stat-tt-fx">Obserwuj profil</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Streaming Column -->
-                <div class="social-col">
-                    <h3 class="col-title">streaming</h3>
-                    <div class="col-links">
-                        <a href="https://twitch.tv/jvras_" class="mini-card twitch">
-                            <div class="icon-circle" style="background:#9146ff;"><i class="fa-brands fa-twitch"></i></div>
-                            <div class="info">
-                                <h2>jvras_</h2>
-                                <span class="stats" id="stat-twitch">Obserwuj kanał</span>
-                            </div>
-                        </a>
-                        <a href="https://kick.com/jvras" class="mini-card kick">
-                            <div class="icon-circle" style="background:#53fc18; color:#000;"><i class="fas fa-bolt"></i></div>
-                            <div class="info">
-                                <h2>jvras</h2>
-                                <span class="stats" id="stat-kick">Obserwuj kanał</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Instagram Column -->
-                <div class="social-col">
-                    <h3 class="col-title">instagram</h3>
-                    <div class="col-links">
-                        <a href="https://www.instagram.com/jvrass/" class="mini-card ig">
-                            <div class="icon-circle" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fa-brands fa-instagram"></i></div>
-                            <div class="info">
-                                <h2>jvrass</h2>
-                                <span class="stats" id="stat-ig-jvrass">Obserwuj profil</span>
-                            </div>
-                        </a>
-                        <a href="https://www.instagram.com/jvras.fx/" class="mini-card ig">
-                            <div class="icon-circle" style="background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);"><i class="fa-brands fa-instagram"></i></div>
-                            <div class="info">
-                                <h2>jvras.fx</h2>
-                                <span class="stats" id="stat-ig-fx">Obserwuj profil</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Gaming Column -->
-                <div class="social-col">
-                    <h3 class="col-title">gaming</h3>
-                    <div class="col-links">
-                        <a href="https://steamcommunity.com/id/jvras/" class="mini-card steam">
-                            <div class="icon-circle" style="background:#171a21;"><i class="fa-brands fa-steam"></i></div>
-                            <div class="info">
-                                <h2>jvras</h2>
-                                <span class="stats" id="stat-steam">Profil Steam</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Support Column -->
-                <div class="social-col">
-                    <h3 class="col-title">wsparcie</h3>
-                    <div class="col-links">
-                        <a href="https://tipply.pl/@jvras" class="mini-card tipply">
-                            <div class="icon-circle" style="background:#ffc107; color:#000;"><i class="fas fa-heart"></i></div>
-                            <div class="info">
-                                <h2>jvras</h2>
-                                <span class="stats">Wsparcie</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <!-- Prawa kolumna: YouTube Najnowsze Filmy -->
-        <aside class="right-panel">
-            <div class="widget youtube-widget">
-                <div class="widget-header">
-                    <div class="discord-logo"><i class="fab fa-youtube"></i> OSTATNIE FILMY</div>
-                </div>
-                <div class="widget-body">
-                    <h3>Najnowsze na Kanale</h3>
-                    <p class="subtitle-sm" style="color:red; font-weight:900;">FILMY (BEZ SHORTS)</p>
-                    <div id="youtube-videos-list" style="display:flex; flex-direction:column; gap:10px;">
-                        <div style="color:white; text-align:center; padding: 20px;"><i class="fas fa-circle-notch fa-spin"></i> Pobieranie...</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-    </div>
-    
-    <script src="app.js"></script>
+  <script src="assets/skin3d.js"></script>
+  <script src="assets/site.js"></script>
 </body>
 </html>
