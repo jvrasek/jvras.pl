@@ -38,6 +38,7 @@
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "Czy JVRAS Launcher jest darmowy?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Launcher, JVRAS Client i podstawowe kosmetyki są za darmo. Kosmetyki z szafy kupujesz żetonami, które zbierasz za codzienne logowanie." } },
+          { "@type": "Question", "name": "Antywirus albo VirusTotal pokazuje zagrożenie. Czy launcher jest bezpieczny?", "acceptedAnswer": { "@type": "Answer", "text": "Tak. Część antywirusów ocenia nowe, niepodpisane programy heurystyką i sztuczną inteligencją, co daje fałszywe alarmy. Główne antywirusy, np. Bitdefender, Avira, ClamAV i CrowdStrike, nie zgłaszają zagrożenia. Pobieraj launcher tylko z jvras.pl albo z GitHuba JVRAS." } },
           { "@type": "Question", "name": "Czy potrzebuję kupionego Minecrafta?", "acceptedAnswer": { "@type": "Answer", "text": "Do gry z kontem Microsoft tak. Konto offline działa do gry jednoosobowej i na serwerach, które je dopuszczają, ale bez żetonów i kosmetyk JVRAS." } },
           { "@type": "Question", "name": "Jakie wersje Minecrafta są obsługiwane?", "acceptedAnswer": { "@type": "Answer", "text": "Wszystkie wersje Vanilla oraz Fabric. JVRAS Client działa na Fabric od 1.21.8 do 26.3." } },
           { "@type": "Question", "name": "Jakie są wymagania?", "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 lub 11 (64-bit) i połączenie z internetem przy pierwszym uruchomieniu wersji. Javę launcher pobiera sam." } }
@@ -274,6 +275,10 @@
         <details class="rv">
           <summary>Windows pokazuje „System Windows ochronił ten komputer”. Co zrobić?</summary>
           <div class="a"><p>To standardowy komunikat dla nowych programów bez płatnego certyfikatu wydawcy. Kliknij <b>Więcej informacji</b>, a potem <b>Uruchom mimo to</b>. Pobieraj launcher wyłącznie z tej strony albo z naszego Discorda.</p></div>
+        </details>
+        <details class="rv">
+          <summary>Antywirus albo VirusTotal pokazuje zagrożenie. Czy launcher jest bezpieczny?</summary>
+          <div class="a"><p>Tak. Launcher to jeden plik, który przy pierwszym uruchomieniu rozpakowuje program do folderu <b>AppData\Local\JVRAS</b>. Część antywirusów ocenia takie pliki „na oko” (sztuczna inteligencja, heurystyka) i oznacza każdy nowy, niepodpisany program, zanim zbierze o nim opinie. Główne antywirusy, np. Bitdefender, Avira, ClamAV i CrowdStrike, nie zgłaszają zagrożenia, a fałszywe alarmy zgłaszamy producentom. Pobieraj launcher tylko z tej strony albo z naszego <a href="https://github.com/jvrasek/jvras-launcher/releases" target="_blank" rel="noopener">GitHuba</a>.</p></div>
         </details>
         <details class="rv">
           <summary>Czy potrzebuję kupionego Minecrafta?</summary>
