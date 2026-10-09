@@ -729,10 +729,21 @@
     }
   }
 
+  // ---------------------------------------------------------------- kopiowanie adresu serwera
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    const v = b.dataset.copy, tx = b.querySelector('[data-copy-tx]') || b, old = tx.textContent;
+    try { await navigator.clipboard.writeText(v); tx.textContent = 'Skopiowano!'; } catch { tx.textContent = v; }
+    b.classList.add('done');
+    setTimeout(() => { tx.textContent = old; b.classList.remove('done'); }, 1600);
+  }));
+
   // ---------------------------------------------------------------- nawigacja i pasek postępu
   const nav = $('#nav'), progress = $('#progress');
-  const navLinks = $$('.links a');
-  const sections = navLinks.map((a) => $(a.getAttribute('href'))).filter(Boolean);
+  // tylko linki do sekcji (zakładka serwera prowadzi na zewnątrz - mc.jvras.pl)
+  const navLinks = $$('.links a[href^="#"]');
+  // + sekcja serwera (bez własnego linku), żeby przy niej nie świeciła się zakładka JVRAS Client
+  const sections = navLinks.map((a) => $(a.getAttribute('href'))).concat($('#serwer')).filter(Boolean)
+    .sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
   let lastScroll = scrollY;
   function onScroll() {
     const y = scrollY;
@@ -790,6 +801,7 @@
     funkcje: [{ kind: 'stone', x: -6, y: 12, size: 46 }, { kind: 'ore', x: 101, y: 30, size: 56, depth: 1.3 }, { kind: 'grass', x: -3, y: 78, size: 34, depth: 0.7 }],
     szafa: [{ kind: 'amethyst', x: -6, y: 20, size: 52, depth: 1.2 }, { kind: 'lamp', x: 101, y: 12, size: 40 }, { kind: 'amethyst', x: 100, y: 74, size: 32, depth: 0.7 }],
     client: [{ kind: 'deepslate', x: -5, y: 30, size: 48 }, { kind: 'jvras', x: 101, y: 64, size: 54, depth: 1.3 }],
+    serwer: [{ kind: 'amethyst', x: -6, y: 26, size: 50, depth: 1.2 }, { kind: 'amethyst', x: 101, y: 70, size: 36, depth: 0.8 }],
     faq: [{ kind: 'gold', x: -6, y: 40, size: 44, depth: 1.2 }, { kind: 'magma', x: 101, y: 22, size: 40 }, { kind: 'deepslate', x: 100, y: 80, size: 30, depth: 0.7 }],
   };
   $$('[data-cubes]').forEach((h) => makeCubes(h, SIDE[h.dataset.cubes] || []));

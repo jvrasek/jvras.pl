@@ -306,6 +306,52 @@ h2 { margin: 12px 0 0; font: 800 clamp(34px, 5vw, 60px)/1.02 'Geist', sans-serif
 .chips li { padding: 7px 12px; border-radius: 999px; font-size: 13.5px; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); transition: border-color .2s ease, transform .3s var(--spring); }
 .chips li:hover { border-color: rgba(250, 204, 21, .4); transform: translateY(-2px); }
 
+/* ================= serwer JVRAS Sift SMP (kolory The Sift: fiolet + turkus) ================= */
+:root { --sv: #b56cff; --st: #3fe6d4; }
+.srv-link { color: var(--ink) !important; display: inline-flex; align-items: center; gap: 8px; background: rgba(181, 108, 255, .1); box-shadow: inset 0 0 0 1px rgba(181, 108, 255, .3); }
+.srv-link:hover { background: rgba(181, 108, 255, .2) !important; }
+.srv-link i { width: 7px; height: 7px; border-radius: 50%; background: var(--st); box-shadow: 0 0 10px var(--st); animation: blink 2.4s ease-in-out infinite; }
+.srv-link::after { content: '↗'; font-size: 12px; opacity: .6; }
+.srv-pill { display: flex; width: fit-content; align-items: center; gap: 10px; margin-bottom: 12px; padding: 6px 14px 6px 6px; border-radius: 999px; font-size: 13.5px; color: var(--ink);
+  background: linear-gradient(90deg, rgba(181, 108, 255, .16), rgba(63, 230, 212, .08)); border: 1px solid rgba(181, 108, 255, .35); transition: border-color .25s ease, transform .3s var(--spring); }
+.srv-pill:hover { border-color: var(--st); transform: translateY(-2px); }
+.srv-pill b { padding: 3px 9px; border-radius: 999px; font: 700 11px 'Geist Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #120a1c; background: linear-gradient(90deg, #c991ff, var(--st)); }
+.srv-pill span { color: var(--st); transition: transform .3s var(--spring); }
+.srv-pill:hover span { transform: translateX(3px); }
+.srv .kick, .srv em { color: var(--sv); }
+.srv h2 em { background: linear-gradient(90deg, #d4a8ff, var(--st)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.srv .chips li:hover { border-color: rgba(181, 108, 255, .5); }
+.srv-btn { color: #120a1c; background: linear-gradient(180deg, #d9b3ff, #b56cff 60%, #9a4ff0); box-shadow: 0 10px 30px -8px rgba(181, 108, 255, .6), inset 0 1px 0 rgba(255, 255, 255, .45); }
+.srv-btn:hover { box-shadow: 0 18px 44px -8px rgba(181, 108, 255, .8), inset 0 1px 0 rgba(255, 255, 255, .5); }
+.srv button.btn { font-family: 'Geist', sans-serif; }
+.srv button.btn.done { border-color: var(--st); }
+.srv-card { position: relative; overflow: hidden; padding: 26px; border-radius: 26px;
+  background: radial-gradient(420px 260px at 85% 0%, rgba(181, 108, 255, .2), transparent 70%), linear-gradient(160deg, #1a1226, #0e0b14 60%, #0a1416);
+  border: 1px solid rgba(181, 108, 255, .28); box-shadow: 0 40px 100px -30px rgba(120, 60, 200, .45); }
+.srv-card > :not(.srv-glow) { position: relative; }
+.srv-glow { position: absolute; inset: 0; pointer-events: none; }
+.srv-glow i { position: absolute; width: 300px; height: 300px; border-radius: 50%; }
+.srv-glow i:nth-child(1) { right: -120px; top: -140px; background: radial-gradient(circle, rgba(181, 108, 255, .4), transparent 65%); animation: srvDrift 10s ease-in-out infinite alternate; }
+.srv-glow i:nth-child(2) { left: -130px; bottom: -160px; background: radial-gradient(circle, rgba(63, 230, 212, .28), transparent 65%); animation: srvDrift 12s ease-in-out -5s infinite alternate-reverse; }
+@keyframes srvDrift { to { transform: translate(-40px, 26px) scale(1.15); } }
+/* wpis jak na liście serwerów w Minecrafcie */
+.srv-row { display: flex; align-items: center; gap: 16px; padding: 14px; border-radius: 16px; background: rgba(0, 0, 0, .35); border: 1px solid rgba(255, 255, 255, .08); }
+.srv-row img { width: 64px; height: 64px; border-radius: 10px; image-rendering: pixelated; flex: none; }
+.srv-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.srv-info b { font-size: 18px; }
+.srv-info .motd { color: var(--mut); font-size: 14px; }
+.srv-info .motd em { color: var(--st); }
+.srv-info .addr { font: 500 12.5px 'Geist Mono', monospace; color: var(--dim); }
+.srv-ping { display: flex; align-items: flex-end; gap: 3px; height: 20px; align-self: flex-start; }
+.srv-ping i { width: 4px; background: var(--st); box-shadow: 0 0 6px rgba(63, 230, 212, .6); animation: srvPing 2.6s ease-in-out infinite; }
+.srv-ping i:nth-child(1) { height: 20%; } .srv-ping i:nth-child(2) { height: 40%; animation-delay: .15s; } .srv-ping i:nth-child(3) { height: 60%; animation-delay: .3s; }
+.srv-ping i:nth-child(4) { height: 80%; animation-delay: .45s; } .srv-ping i:nth-child(5) { height: 100%; animation-delay: .6s; }
+@keyframes srvPing { 0%, 70%, 100% { opacity: 1; } 35% { opacity: .35; } }
+.srv-steps { display: grid; gap: 10px; margin-top: 18px; }
+.srv-steps div { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; font-size: 14.5px; color: var(--ink); background: rgba(255, 255, 255, .035); border: 1px solid rgba(255, 255, 255, .06); }
+.srv-steps b { flex: none; width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; font: 700 13px 'Geist Mono', monospace; color: #120a1c; background: linear-gradient(160deg, #d4a8ff, var(--st)); }
+.srv-steps em { color: var(--st); }
+
 /* ================= FAQ ================= */
 .faq { max-width: 800px; margin: 0 auto; display: grid; gap: 10px; }
 .faq details { border-radius: 16px; background: rgba(20, 20, 23, .7); border: 1px solid var(--line); transition: border-color .25s ease, background .25s ease; }
