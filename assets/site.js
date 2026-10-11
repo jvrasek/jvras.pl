@@ -2,7 +2,10 @@
 (function () {
   'use strict';
   const REPO = 'jvrasek/jvras-launcher';
-  const DOWNLOAD = `https://github.com/${REPO}/releases/latest/download/JVRAS-Launcher.exe`;
+  // instalator do pobrania ze strony ma stały adres i zmienia się rzadko (wydanie "pobierz"), żeby Windows SmartScreen
+  // zdążył mu zbudować reputację; nowsze wersje launcher pobiera sam po instalacji
+  const SETUP_TAG = 'pobierz';
+  const DOWNLOAD = `https://github.com/${REPO}/releases/download/${SETUP_TAG}/JVRAS-Launcher-Setup.exe`;
   const API = 'https://jvras-api.jurasoff1.workers.dev';
   // licznik pokazujemy dopiero od tylu graczy (małe liczby na stronie wyglądają słabo)
   const MIN_TOTAL = 25, MIN_ONLINE = 3;
@@ -15,12 +18,14 @@
 
   // ---------------------------------------------------------------- pobieranie, wersja, licznik
   $$('[data-download]').forEach((a) => { a.href = DOWNLOAD; });
-  fetch(`https://api.github.com/repos/${REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json' } })
+  fetch(`https://api.github.com/repos/${REPO}/releases/tags/${SETUP_TAG}`, { headers: { Accept: 'application/vnd.github+json' } })
     .then((r) => (r.ok ? r.json() : null))
     .then((rel) => {
       if (!rel) return;
       const exe = (rel.assets || []).find((a) => /\.exe$/i.test(a.name));
-      const v = String(rel.tag_name || '').replace(/^v/i, '');
+      // wersja instalatora w nazwie wydania: "JVRAS Launcher 3.10.46 - instalator"
+      const v = (/(\d+\.\d+\.\d+)/.exec(String(rel.name || '')) || [])[1];
+      if (!v) return;
       const mb = exe ? ' · ' + Math.round(exe.size / 1048576) + ' MB' : '';
       $$('[data-version]').forEach((el) => { el.textContent = 'Windows · v' + v + mb; });
     }).catch(() => {});
